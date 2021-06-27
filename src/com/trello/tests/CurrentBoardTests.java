@@ -84,14 +84,66 @@ public class CurrentBoardTests extends TestBase {
 
     @Test
     public void listDeleting() throws InterruptedException {
-        deletingListAfterCheck();
+        List<WebElement> listSize= driver.findElements(By.cssSelector(".js-list"));
+
+        if(listSize.size()>0){
+            WebElement listAction = driver.findElement(By.xpath("//a[@aria-label='List actions']"));
+            listAction.click();
+            Thread.sleep(3000);
+            WebElement closeList = driver.findElement(By.cssSelector(".js-close-list"));
+            closeList.click();
+            Thread.sleep(3000);
+
+        } else{
+            WebElement addAnotherList = driver.findElement(By.cssSelector("div.js-add-list"));
+            addAnotherList.click();
+            Thread.sleep(3000);
+            WebElement listTitleField = driver.findElement(By.cssSelector("input.list-name-input"));
+            listTitleField.sendKeys(listTitle);
+            Thread.sleep(3000);
+            WebElement addListButton = driver.findElement(By.cssSelector("input.js-save-edit"));
+            addListButton.click();
+            Thread.sleep(3000);
+           }
     }
+
 
     @Test
     public void listCopy()throws InterruptedException {
-        copyListAfterCheck();
-    }
+        List<WebElement> listSize= driver.findElements(By.cssSelector(".js-list"));
 
+        if(listSize.size()>0){
+            WebElement listAction = driver.findElement(By.xpath("//a[@aria-label='List actions']"));
+            listAction.click();
+            Thread.sleep(3000);
+            WebElement closeList = driver.findElement(By.cssSelector(".js-copy-list"));
+            closeList.click();
+            Thread.sleep(3000);
+            WebElement nameListAfterCopy = driver.findElement(By.xpath("//textarea[@class='js-autofocus']"));
+            nameListAfterCopy.click();
+            nameListAfterCopy.clear();
+            nameListAfterCopy.sendKeys("Copy of : "+listTitle);
+            Thread.sleep(3000);
+            WebElement submitButton = driver.findElement(By.xpath("//input[@value='Create list']"));
+            submitButton.click();
+            Thread.sleep(3000);
+
+        } else{
+            WebElement addAnotherList = driver.findElement(By.cssSelector("div.js-add-list"));
+            addAnotherList.click();
+            Thread.sleep(3000);
+            WebElement listTitleField = driver.findElement(By.cssSelector("input.list-name-input"));
+            listTitleField.sendKeys(listTitle);
+            Thread.sleep(3000);
+            WebElement addListButton = driver.findElement(By.cssSelector("input.js-save-edit"));
+            addListButton.click();
+            Thread.sleep(3000);
+            WebElement cancelingNewList = driver.findElement(By.xpath("//a[@aria-label='Cancel list editing']"));
+            cancelingNewList.click();
+            Thread.sleep(3000);
+
+        }
+    }
 
 
     @Test
@@ -112,6 +164,11 @@ public class CurrentBoardTests extends TestBase {
         submitButton.click();
         Thread.sleep(5000);
 
+    }
+
+    public void clickAndFielding(WebElement field, String value) {
+        field.click();
+        field.sendKeys(value);
     }
 
 }
