@@ -13,13 +13,13 @@ import java.util.List;
 
 public class TestBase {
     WebDriver driver;
-    String loginPositive = "qa.haifa.9@gmail.com";
-    String passwordPositive = "MonitorSobaka_19";
-    String loginNegative = "Neg" + System.currentTimeMillis() + "@gmail.com";
-    String passwordNegative = "Frgbh9980";
-    String boardTitle = "QA_Haifa_9_Trello";
-    String listTitle = "name for new list";
-    String cardTitle = "text for card field";
+    public static String LOGINPOSITIVE = "qa.haifa.9@gmail.com";
+    public static String PASSWORDPOSITIVE = "MonitorSobaka_19";
+    public static String loginNegative = "Neg" + System.currentTimeMillis() + "@gmail.com";
+    public static String passwordNegative = "Frgbh9980";
+    public static String boardTitle = "QA_Haifa_9_Trello";
+    public static String listTitle = "name for new list";
+    public static String cardTitle = "text for card field";
 
     @BeforeTest
     public void StartUp() throws InterruptedException {

@@ -33,12 +33,12 @@ public class LoginTests extends TestBase {
     public void positiveLogin() throws InterruptedException {
         WebElement emailField = driver.findElement(By.id("user"));
         emailField.click();
-        emailField.sendKeys(loginPositive);
+        emailField.sendKeys(LOGINPOSITIVE);
         Thread.sleep(3000);
         driver.findElement(By.id("login")).click();
         WebElement passwordField = driver.findElement(By.id("password"));
         passwordField.click();
-        passwordField.sendKeys(passwordPositive);
+        passwordField.sendKeys(PASSWORDPOSITIVE);
         Thread.sleep(3000);
         WebElement loginButton = driver.findElement(By.id("login-submit"));
         loginButton.click();

@@ -12,11 +12,11 @@ public class CurrentBoardTests extends TestBase {
     @BeforeTest
     public void initTest() throws InterruptedException {
         WebElement emailField = driver.findElement(By.id("user"));
-        clickAndFielding(emailField, loginPositive);
+        clickAndFielding(emailField, LOGINPOSITIVE);
         Thread.sleep(3000);
         driver.findElement(By.id("login")).click();
         WebElement passwordField = driver.findElement(By.id("password"));
-        clickAndFielding(passwordField, passwordPositive);
+        clickAndFielding(passwordField, PASSWORDPOSITIVE);
         Thread.sleep(3000);
         WebElement loginButton = driver.findElement(By.id("login-submit"));
         loginButton.click();
