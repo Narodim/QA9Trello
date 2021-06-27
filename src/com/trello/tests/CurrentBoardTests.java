@@ -117,8 +117,8 @@ public class CurrentBoardTests extends TestBase {
             WebElement listAction = driver.findElement(By.xpath("//a[@aria-label='List actions']"));
             listAction.click();
             Thread.sleep(3000);
-            WebElement closeList = driver.findElement(By.cssSelector(".js-copy-list"));
-            closeList.click();
+            WebElement copyList = driver.findElement(By.cssSelector(".js-copy-list"));
+            copyList.click();
             Thread.sleep(3000);
             WebElement nameListAfterCopy = driver.findElement(By.xpath("//textarea[@class='js-autofocus']"));
             nameListAfterCopy.click();
