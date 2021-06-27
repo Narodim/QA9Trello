@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -22,6 +23,10 @@ public class TestBase {
 
     @BeforeTest
     public void StartUp() throws InterruptedException {
+//     ----to change language for the browser
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("lang=" + "rus");
+//        driver = new ChromeDriver(options);
         driver = new ChromeDriver();
         driver.get("https://trello.com/");
         driver.manage().window().maximize();
@@ -29,8 +34,10 @@ public class TestBase {
         Select languageDropdownMenu = new Select(driver.findElement(By.id("language-picker")));
         languageDropdownMenu.selectByValue("en");
         Thread.sleep(3000);
+//        System.out.println("Log in button name: "+driver.findElement(By.cssSelector(".text-primary")).getText());
         driver.findElement(By.cssSelector(".text-primary")).click();
         Thread.sleep(3000);
+
 
     }
     @AfterTest

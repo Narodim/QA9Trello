@@ -27,6 +27,7 @@ public class LoginTests extends TestBase {
         //output error-message
         System.out.println("Error-message: "+driver
                 .findElements(By.cssSelector("p.error-message")).get(0).getText());
+
     }
     @Test
     public void positiveLogin() throws InterruptedException {

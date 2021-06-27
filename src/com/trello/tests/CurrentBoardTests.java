@@ -86,14 +86,7 @@ public class CurrentBoardTests extends TestBase {
     public void listDeleting() throws InterruptedException {
         List<WebElement> listSize= driver.findElements(By.cssSelector(".js-list"));
 
-        if(listSize.size()>0){
-            WebElement listAction = driver.findElement(By.xpath("//a[@aria-label='List actions']"));
-            listAction.click();
-            Thread.sleep(3000);
-            WebElement closeList = driver.findElement(By.cssSelector(".js-close-list"));
-            closeList.click();
-            Thread.sleep(3000);
-        } else{
+        if(listSize.size()==0){
             WebElement addAnotherList = driver.findElement(By.cssSelector("div.js-add-list"));
             addAnotherList.click();
             Thread.sleep(3000);
@@ -107,29 +100,19 @@ public class CurrentBoardTests extends TestBase {
             cancelingNewList.click();
             Thread.sleep(3000);
         }
+        WebElement listAction = driver.findElement(By.xpath("//a[@aria-label='List actions']"));
+        listAction.click();
+        Thread.sleep(3000);
+        WebElement closeList = driver.findElement(By.cssSelector(".js-close-list"));
+        closeList.click();
+        Thread.sleep(3000);
     }
 
     @Test
     public void listCopy()throws InterruptedException {
         List<WebElement> listSize= driver.findElements(By.cssSelector(".js-list"));
 
-        if(listSize.size()>0){
-            WebElement listAction = driver.findElement(By.xpath("//a[@aria-label='List actions']"));
-            listAction.click();
-            Thread.sleep(3000);
-            WebElement copyList = driver.findElement(By.cssSelector(".js-copy-list"));
-            copyList.click();
-            Thread.sleep(3000);
-            WebElement nameListAfterCopy = driver.findElement(By.xpath("//textarea[@class='js-autofocus']"));
-            nameListAfterCopy.click();
-            nameListAfterCopy.clear();
-            nameListAfterCopy.sendKeys("Copy of : "+listTitle);
-            Thread.sleep(3000);
-            WebElement submitButton = driver.findElement(By.xpath("//input[@value='Create list']"));
-            submitButton.click();
-            Thread.sleep(3000);
-
-        } else{
+        if(listSize.size()==0){
             WebElement addAnotherList = driver.findElement(By.cssSelector("div.js-add-list"));
             addAnotherList.click();
             Thread.sleep(3000);
@@ -142,8 +125,21 @@ public class CurrentBoardTests extends TestBase {
             WebElement cancelingNewList = driver.findElement(By.xpath("//a[@aria-label='Cancel list editing']"));
             cancelingNewList.click();
             Thread.sleep(3000);
-
         }
+        WebElement listAction = driver.findElement(By.xpath("//a[@aria-label='List actions']"));
+        listAction.click();
+        Thread.sleep(3000);
+        WebElement copyList = driver.findElement(By.cssSelector(".js-copy-list"));
+        copyList.click();
+        Thread.sleep(3000);
+        WebElement nameListAfterCopy = driver.findElement(By.xpath("//textarea[@class='js-autofocus']"));
+        nameListAfterCopy.click();
+        nameListAfterCopy.clear();
+        nameListAfterCopy.sendKeys("Copy of : "+listTitle);
+        Thread.sleep(3000);
+        WebElement submitButton = driver.findElement(By.xpath("//input[@value='Create list']"));
+        submitButton.click();
+        Thread.sleep(3000);
     }
 
 
