@@ -93,7 +93,6 @@ public class CurrentBoardTests extends TestBase {
             WebElement closeList = driver.findElement(By.cssSelector(".js-close-list"));
             closeList.click();
             Thread.sleep(3000);
-
         } else{
             WebElement addAnotherList = driver.findElement(By.cssSelector("div.js-add-list"));
             addAnotherList.click();
@@ -104,9 +103,11 @@ public class CurrentBoardTests extends TestBase {
             WebElement addListButton = driver.findElement(By.cssSelector("input.js-save-edit"));
             addListButton.click();
             Thread.sleep(3000);
-           }
+            WebElement cancelingNewList = driver.findElement(By.xpath("//a[@aria-label='Cancel list editing']"));
+            cancelingNewList.click();
+            Thread.sleep(3000);
+        }
     }
-
 
     @Test
     public void listCopy()throws InterruptedException {
