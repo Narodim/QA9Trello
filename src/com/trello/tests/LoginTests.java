@@ -5,62 +5,62 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.sql.SQLOutput;
+
 
 
 public class LoginTests extends TestBase {
 
     @Test
-    public void negativeLogin() throws InterruptedException {
-        //fill in email field
+    public void negativeLogin(){
+        waitUntilElementIsClickable(By.id("user"), 10);
         WebElement emailField = driver.findElement(By.id("user"));
-        emailField.click();
-        emailField.sendKeys(loginNegative);
-        //fill in password field
+        clickAndFielding(emailField,loginNegative);
+        waitUntilElementIsClickable(By.id("password"), 10);
         WebElement passwordField = driver.findElement(By.id("password"));
-        passwordField.click();
-        passwordField.sendKeys(passwordNegative);
-        Thread.sleep(3000);
-        //click on login button
+        clickAndFielding(passwordField,passwordNegative);
         driver.findElement(By.id("login")).click();
-        Thread.sleep(3000);
-        //output error-message
-        System.out.println("Error-message: "+driver
-                .findElements(By.cssSelector("p.error-message")).get(0).getText());
 
+        waitUntilElementIsVisible(By.cssSelector("p.error-message"), 10);
+        Assert.assertEquals(driver.findElements(By.cssSelector("p.error-message")).get(0).getText(),
+                "There isn't an account for this email", "The error message is not correct");
     }
+
     @Test
-    public void positiveLogin() throws InterruptedException {
+    public void positiveLogin() {
+        waitUntilElementIsClickable(By.id("user"), 10);
         WebElement emailField = driver.findElement(By.id("user"));
-        emailField.click();
-        emailField.sendKeys(LOGINPOSITIVE);
-        Thread.sleep(3000);
+        clickAndFielding(emailField,LOGINPOSITIVE);
+        waitUntilElementIsClickable(By.xpath("//input[@value='Log in with Atlassian']"), 10);
         driver.findElement(By.id("login")).click();
+
+        waitUntilElementIsClickable(By.id("password"), 10);
         WebElement passwordField = driver.findElement(By.id("password"));
-        passwordField.click();
-        passwordField.sendKeys(PASSWORDPOSITIVE);
-        Thread.sleep(3000);
+        clickAndFielding(passwordField,PASSWORDPOSITIVE);
+        waitUntilElementIsClickable(By.id("login-submit"), 10);
         WebElement loginButton = driver.findElement(By.id("login-submit"));
         loginButton.click();
-        Thread.sleep(8000);
+
+        waitUntilElementIsClickable(By.xpath("(//button[@data-test-id='header-boards-menu-button']/span)[2]"), 10);
         WebElement boardsList = driver.findElement(By.xpath("(//button[@data-test-id='header-boards-menu-button']/span)[2]"));//without localization
         boardsList.click();
         String boardButtonActualText = boardsList.getText();
-        Assert.assertEquals(boardButtonActualText, "Boards", "Something going wrong");
-        Thread.sleep(3000);
-        System.out.println("Header of the Tab: "+ driver.findElement(By.xpath("//button[@aria-label='Open boards menu']/span[contains(text(),'Boards')]")).getText());
+        Assert.assertEquals(boardButtonActualText, "Boards", "Troubles with assert");
+
         WebElement openMemberMenu = driver.findElement(By.xpath("//button[@aria-label='Open member menu']"));
         openMemberMenu.click();
-        Thread.sleep(3000);
+        waitUntilElementIsClickable(By.xpath("//nav/ul/li[8]"), 10);
         WebElement logOut = driver.findElement(By.xpath("//nav/ul/li[8]"));
         logOut.click();
-        Thread.sleep(3000);
+
+        waitUntilElementIsClickable(By.id("logout-submit"), 10);
         WebElement logoutSubmit = driver.findElement(By.id("logout-submit"));
         logoutSubmit.click();
-        Thread.sleep(3000);
-        System.out.println("Exit confirmed: "+ driver.findElement(By.xpath("//div[@class='layout-centered-content']")).getText());
 
+        waitUntilElementIsVisible(By.xpath("//div[@class='layout-centered-content']"), 10);
+        WebElement exitConfirmed = driver.findElement(By.xpath("//div[@class='layout-centered-content']"));
+        String confirmedExitText = exitConfirmed.getText();
+        Assert.assertEquals(confirmedExitText, "Thanks for using Trello." +
+                        "\nYou’re all logged out. So now what?","Troubles with assert");
     }
-
 }
 
