@@ -1,24 +1,25 @@
 package com.trello.tests;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.CurrentBoardPageHelper;
 import pages.HomePageHelper;
 import pages.LoginPageHelper;
 import pages.MemberMenuHelper;
 
-public class MemberMenuTest extends TestBase{
+
+
+public class MemberMenuActivityTabTest extends TestBase {
     HomePageHelper homePage;
     LoginPageHelper loginPage;
-    CurrentBoardPageHelper currentBoardPage;
     MemberMenuHelper memberMenu;
 
     @BeforeMethod
-    public void initTest() {
+    public void InitTest(){
         homePage = new HomePageHelper(driver);
         loginPage = new LoginPageHelper(driver);
-        currentBoardPage = new CurrentBoardPageHelper(driver, boardTitle);
         memberMenu = new MemberMenuHelper(driver);
 
         homePage.waitUntilPageIsLoaded();
@@ -33,10 +34,7 @@ public class MemberMenuTest extends TestBase{
     }
 
     @Test
-    public void profileAndVisibilityTabExisting(){
-        Assert.assertEquals(memberMenu.profileAndVisibilityTab(),"Profile and visibility");
+    public void lastActivityInActivityTab(){
+        Assert.assertEquals(memberMenu.activityTab(), memberMenu.accName + " " + "added list" + " " + listTitle + " " + "to" + " " + boardTitle);
     }
-
-
-
 }
