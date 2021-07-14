@@ -2,9 +2,11 @@ package com.trello.tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.CurrentBoardPageHelper;
 import pages.HomePageHelper;
 import pages.LoginPageHelper;
 import pages.MemberMenuHelper;
@@ -18,19 +20,21 @@ public class MemberMenuActivityTabTest extends TestBase {
 
     @BeforeMethod
     public void InitTest(){
-        homePage = new HomePageHelper(driver);
-        loginPage = new LoginPageHelper(driver);
-        memberMenu = new MemberMenuHelper(driver);
+        homePage = PageFactory.initElements(driver, HomePageHelper.class);
+        loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
+        memberMenu = PageFactory.initElements(driver, MemberMenuHelper.class);
 
         homePage.waitUntilPageIsLoaded();
-        loginPage.openPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.fillInEmailFieldPos(LOGINPOSITIVE);
-        loginPage.logInWithAttl();
-        loginPage.fillInPasswordFieldPos(PASSWORDPOSITIVE);
-        loginPage.clickSubmitButton();
-        memberMenu.openMenuMember();
-        memberMenu.waitUntilPageIsLoaded();
+        loginPage
+                .openPage()
+                .waitUntilPageIsLoaded()
+                .fillInEmailFieldPos(LOGINPOSITIVE)
+                .logInWithAttl()
+                .fillInPasswordFieldPos(PASSWORDPOSITIVE)
+                .clickSubmitButton();
+        memberMenu
+                .openMenuMember()
+                .waitUntilPageIsLoaded();
     }
 
     @Test

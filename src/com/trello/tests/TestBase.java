@@ -5,25 +5,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
-
+import pages.HomePageHelper;
+import pages.LoginPageHelper;
 
 
 public class TestBase {
     WebDriver driver;
+    HomePageHelper homePage;
     public static String LOGINPOSITIVE = "qa.haifa.9@gmail.com";
     public static String PASSWORDPOSITIVE = "MonitorSobaka_19";
     public static String loginNegative = "Neg" + System.currentTimeMillis() + "@gmail.com";
     public static String passwordNegative = "Frgbh9980";
-    public static String boardTitle = "Trello_test";
+    public static String boardTitle = "Monday";
     public static String listTitle = "some text";
     public static String cardTitle = "text for a card field";
-
 
     @BeforeMethod
     public void StartUp()  {
@@ -39,6 +40,8 @@ public class TestBase {
 //        waitUntilElementIsClickable(By.cssSelector(".text-primary"),40);
 //        driver.findElement(By.cssSelector(".text-primary")).click();
 //        System.out.println("Log in button name: "+driver.findElement(By.cssSelector(".text-primary")).getText());
+        homePage = PageFactory.initElements(driver, HomePageHelper .class);
+        homePage.waitUntilPageIsLoaded();
 
 
 
@@ -56,51 +59,6 @@ public class TestBase {
 //        Thread.sleep(3000);
 //        System.out.println("Exit confirmed: "+ driver.findElement(By.xpath("//div[@class='layout-centered-content']")).getText());
         driver.quit();
-    }
-
-    public void clickAndFielding(WebElement field, String value) {
-        field.click();
-        field.sendKeys(value);
-    }
-
-    public void waitUntilElementIsClickable(By locator, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.elementToBeClickable(locator));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void waitUntilElementIsVisible(By locator, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOfElementLocated(locator));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void waitUntilElementIsInvisible(By locator, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.invisibilityOfElementLocated(locator));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void waitUntilAllElementsArePresent(By locator, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void waitUntilElementBecame(By locator, int quantity, int time) {
-        try {
-            new WebDriverWait(driver, time).until(ExpectedConditions.numberOfElementsToBe(locator,quantity));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }

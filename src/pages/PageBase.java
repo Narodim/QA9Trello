@@ -30,9 +30,25 @@ public class PageBase {
         }
     }
 
+    public void waitUntilElementIsClickable(WebElement element, int time) {
+        try {
+            new WebDriverWait(driver, time).until(ExpectedConditions.elementToBeClickable(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void waitUntilElementIsVisible(By locator, int time) {
         try {
             new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void waitUntilElementIsVisible(WebElement element, int time) {
+        try {
+            new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOf(element));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,6 +62,14 @@ public class PageBase {
         }
     }
 
+    public void waitUntilElementIsInvisible(WebElement element, int time) {
+        try {
+            new WebDriverWait(driver, time).until(ExpectedConditions.invisibilityOf(element));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void waitUntilAllElementsArePresent(By locator, int time) {
         try {
             new WebDriverWait(driver, time).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
@@ -54,7 +78,8 @@ public class PageBase {
         }
     }
 
-    public void waitUntilElementBecame(By locator, int quantity, int time) {
+
+    public void waitUntilElementsBecame(By locator, int quantity, int time) {
         try {
             new WebDriverWait(driver, time).until(ExpectedConditions.numberOfElementsToBe(locator,quantity));
         } catch (Exception e) {

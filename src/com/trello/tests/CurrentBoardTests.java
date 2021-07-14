@@ -1,8 +1,8 @@
 package com.trello.tests;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -10,8 +10,6 @@ import pages.CurrentBoardPageHelper;
 import pages.HomePageHelper;
 import pages.LoginPageHelper;
 
-import java.nio.file.WatchEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentBoardTests extends TestBase {
@@ -19,94 +17,87 @@ public class CurrentBoardTests extends TestBase {
     LoginPageHelper loginPage;
     CurrentBoardPageHelper currentBoardPage;
 
+
     @BeforeMethod
     public void initTest() {
-        homePage = new HomePageHelper(driver);
-        loginPage = new LoginPageHelper(driver);
+        homePage = PageFactory.initElements(driver, HomePageHelper.class);
+        loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
         currentBoardPage = new CurrentBoardPageHelper(driver, boardTitle);
 
-
         homePage.waitUntilPageIsLoaded();
-        loginPage.openPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.fillInEmailFieldPos(LOGINPOSITIVE);
-        loginPage.logInWithAttl();
-        loginPage.fillInPasswordFieldPos(PASSWORDPOSITIVE);
-        loginPage.clickSubmitButton();
+        loginPage
+                .openPage()
+                .waitUntilPageIsLoaded()
+                .fillInEmailFieldPos(LOGINPOSITIVE)
+                .logInWithAttl()
+                .fillInPasswordFieldPos(PASSWORDPOSITIVE)
+                .clickSubmitButton();
     }
 
     @Test()
     public void newBoardAdd() {
+        currentBoardPage
+                        .createNewBoard()
+                        .backToTheBoardsPage();
+        Assert.assertEquals(
+                boardTitle,currentBoardPage.receivingConfirmFromBoardsPage(),
+                "Ne igraisya s kostilyami");
 
-        currentBoardPage.createNewBoard();
-        currentBoardPage.backgroundImage();
-        currentBoardPage.accessDropDownMenu();
-        currentBoardPage.typeOfAccess();
-        currentBoardPage.approveButton();
-        currentBoardPage.createButton();
-        currentBoardPage.cancelingNewList();
-        currentBoardPage.backToTheBoardsPage();
-        currentBoardPage.receivingConfirmForBoard();
     }
 
     @Test
     public void newListAdd(){
-
         currentBoardPage.chooseBoard();
-        int beforeSize = currentBoardPage.listSizeBefore();
+        int sizeBefore = currentBoardPage.listSizeBefore();
         currentBoardPage.addNewList();
-        currentBoardPage.listTitleField();
-        currentBoardPage.addListButton();
-        currentBoardPage.cancelingNewList();
-        int afterSize = currentBoardPage.listSizeAfter();
-        Assert.assertEquals(afterSize, beforeSize+1);
-
-
+        int sizeAfter = currentBoardPage.listSizeBefore();
+        Assert.assertEquals(sizeAfter, sizeBefore+1,
+                "Something wrong with adding new list");
     }
 
     @Test
-    public void newCardAdd() throws InterruptedException {
+    public void newCardAdd(){
         currentBoardPage.chooseBoard();
-        List<WebElement> listSize= driver.findElements(By.cssSelector(".js-list-content"));
-//        int sizeOfList = listSize.size();
-        if(listSize.size()==0){
-            currentBoardPage.addNewList();
-            currentBoardPage.listTitleField();
-            currentBoardPage.addListButton();
-//            waitUntilElementBecame(By.cssSelector(".js-list-content"), sizeOfList+1,10);
-            Thread.sleep(3000);
-            currentBoardPage.cancelingNewList();
+        int sizeBefore = currentBoardPage.listSizeBefore();
+        if(sizeBefore==0){
+            currentBoardPage
+                            .addNewList();
         }
+        int cardsBefore = currentBoardPage.numCardsBeforeLst();
         currentBoardPage.addCardByListName();
+        int cardsAfter = currentBoardPage.numCardsBeforeLst();
+        Assert.assertEquals(cardsAfter, cardsBefore+1,
+                "Something wrong with adding new card");
     }
 
     @Test
-    public void listArchive() throws InterruptedException {
+    public void listArchive(){
         currentBoardPage.chooseBoard();
-        List<WebElement> listSize= driver.findElements(By.cssSelector(".js-list"));
-        if(listSize.size()==0){
-            currentBoardPage.addNewList();
-            currentBoardPage.listTitleField();
-            currentBoardPage.addListButton();
-            Thread.sleep(3000);
-            currentBoardPage.cancelingNewList();
+        int sizeBefore = currentBoardPage.listSizeBefore();
+        if(sizeBefore==0){
+            currentBoardPage
+                            .addNewList();
+            sizeBefore++;
         }
         currentBoardPage.listArchiveByName();
+        int sizeAfter = currentBoardPage.listSizeBefore();
+        Assert.assertEquals(sizeBefore-1, sizeAfter,
+                "na etom nashi polnomochiya fsyo");
     }
 
     @Test
-    public void listCopy() throws InterruptedException {
+    public void listCopy() {
         currentBoardPage.chooseBoard();
-        List<WebElement> listSize= driver.findElements(By.cssSelector(".js-list-content"));
-        if(listSize.size()==0){
-            currentBoardPage.addNewList();
-            currentBoardPage.listTitleField();
-            currentBoardPage.addListButton();
-            Thread.sleep(3000);
-            currentBoardPage.cancelingNewList();
+        int sizeBefore = currentBoardPage.listSizeBefore();
+        if(sizeBefore==0){
+            currentBoardPage
+                    .addNewList();
+            sizeBefore++;
         }
         currentBoardPage.copyListByName();
-
+        int sizeAfter = currentBoardPage.listSizeBefore();
+        Assert.assertEquals(sizeAfter, sizeBefore+1,
+                "List wasn't copy");
     }
 
 

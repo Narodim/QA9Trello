@@ -3,6 +3,8 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -11,138 +13,164 @@ import java.util.List;
 public class CurrentBoardPageHelper extends PageBase{
     String boardTitle;
 
+
     public CurrentBoardPageHelper(WebDriver driver, String boardName){
         this.driver = driver;
         this.boardTitle = boardName;
+        PageFactory.initElements(driver, this);
     }
+    @FindBy(css = ".content-all-boards")
+    WebElement allBoardsPresent;
+    @FindBy(css = ".mod-add")
+    WebElement addNewBoard;
+    @FindBy(xpath = "//input[@data-test-id='create-board-title-input']")
+    WebElement newBoardTitle;
+    @FindBy(xpath = "(//ul/li/button)[2]")
+    WebElement backgroundImage;
+    @FindBy(xpath = "//span[@aria-label='DownIcon']")
+    WebElement dropDownMenuOfAccess;
+    @FindBy(xpath = "(//nav/ul/li)[3]")
+    WebElement typeOfAccess;
+    @FindBy(xpath = "//button[@type='button'][contains(text(),'Yes, make board public')]")
+    WebElement approveButton;
+    @FindBy(xpath = "//button[@data-test-id='create-board-submit-button']")
+    WebElement createBoardButton;
+    @FindBy(css = ".js-cancel-edit")
+    WebElement cancelingNewList;
+    @FindBy(xpath = "//span[@aria-label='HouseIcon']")
+    WebElement houseIcon;
+    @FindBy(css = ".js-list-content")
+    List<WebElement> listContent;
+    @FindBy(css = ".placeholder")
+    WebElement addListTab;
+    @FindBy(css = ".list-name-input")
+    WebElement listName;
+    @FindBy(css = ".js-save-edit")
+    WebElement addListButton;
+    @FindBy(css = ".list-wrapper")
+    WebElement allListsPresent;
+    @FindBy(css = ".is-shown")
+    WebElement listActionsMenu;
+    @FindBy(css = ".js-add-card")
+    WebElement addCard;
+    @FindBy(css = ".js-card-title")
+    WebElement addCardTitle;
+    @FindBy(xpath = "//*[@value='Add card']")
+    WebElement confirmButtonBorAddCard;
+    @FindBy(css = ".js-cancel")
+    WebElement cancelNewCard;
+    @FindBy(css = ".js-close-list")
+    WebElement archiveList;
+    @FindBy(css = ".js-copy-list")
+    WebElement copyList;
+    @FindBy(css = ".js-autofocus")
+    WebElement nameOfCopy;
+    @FindBy(xpath = "//input[@value='Create list']")
+    WebElement createList;
+    @FindBy(xpath = "//*[@id='board']")
+    WebElement boardWithLists;
+//    @FindBy(css = ".list-card-title")
+//    List<WebElement> numCards;
 
 
 //===============================================CREATE NEW BOARD=======================================================
-    public void createNewBoard() {
-        WebElement createNewBoard = driver.findElement(By.cssSelector("div.mod-add"));
-        createNewBoard.click();
-        waitUntilElementIsClickable(By.xpath("//input[@data-test-id='create-board-title-input']"), 10);
-        WebElement newBoardTitle = driver.findElement(By.xpath("//input[@data-test-id='create-board-title-input']"));
+    public CurrentBoardPageHelper createNewBoard() {
+        waitUntilElementIsVisible(allBoardsPresent, 10);
+        addNewBoard.click();
+        waitUntilElementIsClickable(newBoardTitle, 10);
         clickAndFielding(newBoardTitle, boardTitle);
-    }
-
-    public void backgroundImage() {
-        WebElement backgroundImage = driver.findElement(By.xpath("(//ul/li/button)[2]"));
+        waitUntilElementIsClickable(backgroundImage, 10);
         backgroundImage.click();
-    }
-
-    public void accessDropDownMenu() {
-        WebElement accessDropDownMenu = driver.findElement(By.xpath("//span[@aria-label='DownIcon']"));
-        accessDropDownMenu.click();
-    }
-
-    public void typeOfAccess() {
-        waitUntilElementIsClickable(By.xpath("(//nav/ul/li)[3]"), 10);
-        WebElement typeOfAccess = driver.findElement(By.xpath("(//nav/ul/li)[3]"));
+        waitUntilElementIsClickable(dropDownMenuOfAccess, 10);
+        dropDownMenuOfAccess.click();
+        waitUntilElementIsClickable(typeOfAccess, 10);
         typeOfAccess.click();
-    }
-
-    public void approveButton() {
-        waitUntilElementIsClickable(By.xpath("//button[@type='button'][contains(text(),'Yes, make board public')]"), 10);
-        WebElement approveButton = driver.findElement(By.xpath("//button[@type='button'][contains(text(),'Yes, make board public')]"));
+        waitUntilElementIsClickable(approveButton, 10);
         approveButton.click();
-    }
-
-    public void createButton() {
-        waitUntilElementIsClickable(By.xpath("//button[@data-test-id='create-board-submit-button']"), 10);
-        WebElement createButton = driver.findElement(By.xpath("//button[@data-test-id='create-board-submit-button']"));
-        createButton.click();
-    }
-
-    public void cancelingNewList() {
-        waitUntilElementIsClickable(By.cssSelector(".js-cancel-edit"), 10);
-        WebElement cancelingNewList = driver.findElement(By.cssSelector(".js-cancel-edit"));
+        waitUntilElementIsClickable(createBoardButton, 10);
+        createBoardButton.click();
+        waitUntilElementIsClickable(cancelingNewList, 10);
         cancelingNewList.click();
-
+        return this;
     }
 
-    public void backToTheBoardsPage() {
-        WebElement homeIcon = driver.findElement(By.xpath("//span[@aria-label='HouseIcon']"));
-        homeIcon.click();
+    public CurrentBoardPageHelper cancelingNewList(){
+        waitUntilElementIsClickable(cancelingNewList, 10);
+        cancelingNewList.click();
+        return this;
+}
+
+     public CurrentBoardPageHelper backToTheBoardsPage() {
+        waitUntilElementIsVisible(allListsPresent, 10);
+        waitUntilElementIsVisible(houseIcon,10);
+        houseIcon.click();
+        return this;
     }
 
-    public void receivingConfirmForBoard() {
-        waitUntilElementIsClickable(By.xpath("//div[@class='board-tile-details-name']"), 10);
-        String actualBoardTitle = driver.findElement(By.xpath("//div[@class='board-tile-details-name']")).getText();
-        Assert.assertEquals(boardTitle,actualBoardTitle,"Ne igraysya s kostilyami");
+    public String receivingConfirmFromBoardsPage() {
+        waitUntilElementIsClickable(By.xpath("//*[@class='boards-page-board-section mod-no-sidebar'][contains(.,'Way to success')]//div[@title='"+boardTitle+"']"), 10);
+        WebElement newBoardFromRecentlyViewed = driver.findElement
+        (By.xpath("//*[@class='boards-page-board-section mod-no-sidebar'][contains(.,'Recently viewed')]//div[@title='"+boardTitle+"']"));
+        return newBoardFromRecentlyViewed.getText();
     }
 
 //=============================================ADD NEW LIST==========================================================================
 
-    public void chooseBoard() {
-        waitUntilAllElementsArePresent(By.cssSelector(".all-boards"), 10);
+    public int listSizeBefore() {
+        return listContent.size();
+    }
+
+    public int cardsQuantity() {
+        List<WebElement> listContent = driver.findElements(By.cssSelector(".list-card-title"));
+        return listContent.size();
+    }
+
+    public CurrentBoardPageHelper chooseBoard() {
+        waitUntilElementIsVisible(allBoardsPresent, 10);
         WebElement chooseBoard = driver.findElement(By.xpath("//div[@title='"+boardTitle+"']"));
         chooseBoard.click();
-        waitUntilElementIsVisible(By.cssSelector("#board"), 10);
+        waitUntilElementIsVisible(boardWithLists, 10);
+        return this;
     }
 
-    public int listSizeBefore() {
-        List<WebElement> listSizeBefore = driver.findElements(By.cssSelector(".js-list-content"));
-        return listSizeBefore.size();
-    }
 
-    public void addNewList() {
-        waitUntilAllElementsArePresent(By.cssSelector(".placeholder"), 10);
-        waitUntilElementIsClickable(By.cssSelector("div.js-add-list"), 10);
-        WebElement addAnotherList = driver.findElement(By.cssSelector("div.js-add-list"));
-        addAnotherList.click();
-    }
-
-    public void listTitleField() {
-        waitUntilElementIsClickable(By.cssSelector("input.list-name-input"), 10);
-        WebElement listTitleField = driver.findElement(By.cssSelector("input.list-name-input"));
+    public CurrentBoardPageHelper addNewList() {
+        int sizeBefore = this.listSizeBefore();
+        addListTab.click();
+        WebElement listTitleField = listName;
         listTitleField.sendKeys(listTitle);
-    }
-
-    public void addListButton() {
-        waitUntilElementIsClickable(By.cssSelector("input.js-save-edit"), 10);
-        WebElement addListButton = driver.findElement(By.cssSelector("input.js-save-edit"));
         addListButton.click();
-        waitUntilAllElementsArePresent(By.cssSelector(".placeholder"), 10);
+        waitUntilElementsBecame(By.cssSelector(".js-list-content"), sizeBefore+1, 10);
+            System.out.println("After adding: " + this.listSizeBefore());
+        waitUntilElementIsClickable(cancelingNewList, 10);
+        cancelingNewList.click();
+        waitUntilElementIsClickable(addListTab, 10);
+        return this;
     }
 
-    public int listSizeAfter() {
-        List<WebElement> listSizeAfter = driver.findElements(By.cssSelector(".js-list-content"));
-        return listSizeAfter.size();
-    }
-//    public void receivingConfirmForList() {
-//        int beforeSize = listSizeBefore();
-//        int afterSize = listSizeAfter();
-//      Assert.assertTrue(afterSize>beforeSize);
-//    }
 
+    //======================================================ADD NEW CARD BY LIST NAME==================================================
 
-//======================================================ADD NEW CARD BY LIST NAME==================================================
-        public void addCardByListName() {
-        List<WebElement> numCardsBefore = driver.findElements(By.cssSelector(".ui-droppable"));
-        int numberOfCardBeforeAdd = numCardsBefore.size();
+    public void addCardByListName() {
+        int cardsBefore = this.numCardsBeforeLst();
         WebElement listActionButton = driver.findElement
-                (By.xpath("//*[@class='list js-list-content'][.//*[contains(.,'"+listTitle+"')]]//*[@class='list-header-extras']"));
+        (By.xpath("//*[@class='list js-list-content'][.//*[contains(.,'"+listTitle+"')]]//*[@class='list-header-extras']"));
         listActionButton.click();
-        waitUntilElementIsVisible(By.cssSelector(".no-back"), 10);
-        waitUntilElementIsClickable(By.cssSelector(".js-add-card"),10);
-        WebElement addCard = driver.findElement(By.xpath("//*[@class='js-add-card']"));
+        waitUntilElementIsVisible(listActionsMenu, 10);
+        waitUntilElementIsClickable(addCard,10);
         addCard.click();
-        waitUntilElementIsClickable(By.cssSelector(".js-card-title"), 10);
-        WebElement textForCardTitle = driver.findElement(By.cssSelector(".js-card-title"));
-        textForCardTitle.sendKeys(cardTitle);
-        waitUntilElementIsClickable(By.xpath("//*[@value='Add card']"), 10);
-        WebElement addCardSubmitButton = driver.findElement(By.xpath("//*[@value='Add card']"));
-        addCardSubmitButton.click();
-        waitUntilElementBecame(By.cssSelector(".ui-droppable"),numberOfCardBeforeAdd+1, 10 );
-        WebElement cancelButton = driver.findElement(By.cssSelector(".js-cancel"));
-        cancelButton.click();
-        List<WebElement> numCardsAfter = driver.findElements(By.cssSelector(".ui-droppable"));
-        waitUntilElementIsInvisible(By.cssSelector(".js-cancel"), 10);
-        WebElement homeIcon = driver.findElement(By.xpath("//*[@aria-label='HouseIcon']"));
-        homeIcon.click();
-        waitUntilAllElementsArePresent(By.cssSelector(".all-boards"), 10);
-        Assert.assertEquals(numCardsAfter.size(), numCardsBefore.size()+1, "Something wrong with add card");
+        waitUntilElementIsClickable(addCardTitle, 10);
+        addCardTitle.sendKeys(cardTitle);
+        waitUntilElementIsClickable(confirmButtonBorAddCard, 10);
+        confirmButtonBorAddCard.click();
+        waitUntilElementsBecame(By.cssSelector(".list-card-title"),cardsBefore+1, 10 );
+        waitUntilElementIsClickable(cancelNewCard, 10);
+        cancelNewCard.click();
+    }
+
+    public int  numCardsBeforeLst(){
+        List<WebElement> listContent = driver.findElements(By.cssSelector(".list-card-title"));
+        return listContent.size();
     }
 
     //    public void newCardAddByListName() {
@@ -179,18 +207,16 @@ public class CurrentBoardPageHelper extends PageBase{
 //        }
 //    }
 //==============================================ARCHIVE LIST BY NAME===============================================================
+
+
     public void listArchiveByName() {
-        waitUntilAllElementsArePresent(By.cssSelector(".js-list"), 10);
-        List<WebElement> listBefore= driver.findElements(By.cssSelector(".js-list"));
+        waitUntilElementIsVisible(allListsPresent, 10);
         WebElement listActionButton = driver.findElement
-                (By.xpath("//*[@class='list js-list-content'][.//*[contains(.,'"+listTitle+"')]]//*[@class='list-header-extras']"));
+        (By.xpath("//*[@class='list js-list-content'][.//*[contains(.,'"+listTitle+"')]]//*[@class='list-header-extras']"));
         listActionButton.click();
-        waitUntilElementIsClickable(By.cssSelector(".js-close-list"), 10);
-        WebElement closeList = driver.findElement(By.cssSelector(".js-close-list"));
-        closeList.click();
-        waitUntilAllElementsArePresent(By.cssSelector(".placeholder"), 10);
-        List<WebElement> listAfter = driver.findElements(By.cssSelector(".js-list"));
-        Assert.assertEquals(listBefore.size()-1, listAfter.size() , "Check it");
+        waitUntilElementIsClickable(archiveList, 10);
+        archiveList.click();
+        waitUntilElementIsVisible(addListTab, 10);
     }
 
 
@@ -200,36 +226,18 @@ public class CurrentBoardPageHelper extends PageBase{
 
 
     public void copyListByName() {
-        List<WebElement> listSizeBefore= driver.findElements(By.cssSelector(".js-list-content"));
-        int sizeBefore = listSizeBefore.size();
-        waitUntilAllElementsArePresent(By.cssSelector(".js-list-content"), 10);
         WebElement listActionButton = driver.findElement
-                (By.xpath("//*[@class='list js-list-content'][.//*[contains(.,'"+listTitle+"')]]//*[@class='list-header-extras']"));
+        (By.xpath("//*[@class='list js-list-content'][.//*[contains(.,'"+listTitle+"')]]//*[@class='list-header-extras']"));
         listActionButton.click();
-        waitUntilElementIsClickable(By.cssSelector(".js-copy-list"), 10);
-        WebElement copyList = driver.findElement(By.cssSelector(".js-copy-list"));
+        waitUntilElementIsClickable(copyList, 10);
         copyList.click();
-        waitUntilElementIsClickable(By.cssSelector(".js-autofocus"), 10);
-        WebElement nameListAfterCopy = driver.findElement(By.cssSelector(".js-autofocus"));
-        nameListAfterCopy.click();
-        nameListAfterCopy.clear();
-        nameListAfterCopy.sendKeys("Copy of : "+listTitle);
-        waitUntilElementIsClickable(By.xpath("//input[@value='Create list']"), 10);
-        WebElement submitButton = driver.findElement(By.xpath("//input[@value='Create list']"));
-        submitButton.click();
-        List<WebElement> listSizeAfter= driver.findElements(By.cssSelector(".js-list-content"));
-        int sizeAfter = listSizeAfter.size();
-//        waitUntilElementBecame
-//        (By.xpath("//*[@class='list js-list-content'][contains(.,'Copy of : '"+listTitle+"')]"),sizeAfter+1, 10);
-        //*[@class='list js-list-content'][contains(.,'some text')]
-        Assert.assertEquals(sizeAfter, sizeBefore+1, "List wasn't copy");
+        waitUntilElementIsClickable(nameOfCopy, 10);
+        nameOfCopy.click();
+        nameOfCopy.clear();
+        nameOfCopy.sendKeys(listTitle);
+        waitUntilElementIsClickable(createList, 10);
+        createList.click();
     }
-
-
-
-
-
-
 
 }
 
